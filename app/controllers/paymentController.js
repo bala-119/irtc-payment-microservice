@@ -200,31 +200,14 @@ async paymentSuccess(req, res) {
       }
     }
     
-    // Show success page
-    res.send(`
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <title>Payment Successful</title>
-        <style>
-          body { font-family: Arial; text-align: center; padding: 50px; }
-          .success { color: green; font-size: 50px; }
-          button { padding: 10px 20px; margin: 10px; cursor: pointer; }
-        </style>
-      </head>
-      <body>
-        <div class="success">✓</div>
-        <h1>Payment Successful!</h1>
-        <p><strong>PNR:</strong> ${pnr}</p>
-        <p><strong>Status:</strong> PAID ✓</p>
-       npm
-      </body>
-      </html>
-    `);
+    // Update response for local testing - redirect back to frontend
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+    return res.redirect(`${frontendUrl}/bookings?pnr=${pnr}&status=PAID`);
     
   } catch (error) {
     console.error('Error:', error);
-    res.send(`<h1>Payment Successful</h1><p>PNR: ${req.query.pnr}</p><p>Your booking will be updated shortly.</p>`);
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+    res.redirect(`${frontendUrl}/bookings?pnr=${req.query.pnr}&status=ERROR`);
   }
 }
   // CANCELLATION PAGE
