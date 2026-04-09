@@ -10,7 +10,10 @@ const app = express();
 connectDB();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'https://bala-119.github.io',
+  credentials: true
+}));
 app.use(express.json());
 
 // Routes
